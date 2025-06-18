@@ -3,20 +3,20 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\LokasiResource;
-use App\Models\Lokasi;
+use App\Http\Resources\MapelResource;
+use App\Models\Mapel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class LokasiController extends Controller
+class MapelController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $model = Lokasi::all();
-        return new LokasiResource(true, 'Data lokasi ditemukan', $model);
+        $model = Mapel::all();
+        return new MapelResource(true, 'Data mapel ditemukan', $model);
     }
 
     /**
@@ -27,13 +27,12 @@ class LokasiController extends Controller
         $validator = Validator::make($request->all(), [
             'name'=> 'required|string|min:5|max:20',
             'short_name'=> 'required|string|min:3|max:5',
-            'rooms_count'=> 'required|integer|min:1|max:50'
         ]);
-        if ($validator->fails()){
+        if ($validator->fails()) {
             return response()->json($validator->errors(),422);
         }
-        $model = Lokasi::create($request->all());
-        return new LokasiResource(true,'Data lokasi berhasil disimpan', $model);
+        $model = Mapel::create($request->all());
+        return new MapelResource(true,'Data mapel berhasil disimpan', $model);
     }
 
     /**
@@ -41,8 +40,8 @@ class LokasiController extends Controller
      */
     public function show(string $id)
     {
-        $model = Lokasi::find($id);
-        return new LokasiResource(true, 'Data lokasi ditemukan',$model);
+        $model = Mapel::find($id);
+        return new MapelResource(true, 'Data mapel ditemukan', $model);
     }
 
     /**
@@ -53,18 +52,13 @@ class LokasiController extends Controller
         $validator = Validator::make($request->all(), [
             'name'=> 'required|string|min:5|max:20',
             'short_name'=> 'required|string|min:3|max:5',
-            'rooms_count'=> 'required|integer|min:1|max:50'
         ]);
-        if ($validator->fails()){
-            return response()->json($validator->errors(),442);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(),422);
         }
-        $model = Lokasi::find($id);
-        $model->update([
-            'name' => $request->name,
-            'short_name' => $request->short_name,
-            'rooms_count' => $request->rooms_count
-        ]);
-        return new LokasiResource(true,'Data berhasil dirubah', $model);
+        $model = Mapel::find($id);
+        $model->update($request->all());
+        return new MapelResource(true,'Data mapel berhasil dirubah', $model);
     }
 
     /**

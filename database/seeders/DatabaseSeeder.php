@@ -21,5 +21,8 @@ class DatabaseSeeder extends Seeder
         ]);
         $this->call(JamSeeder::class);
         $this->call(LokasiSeeder::class);
+        $this->call(MapelSeeder::class);
+        $this->call(PengajarSeeder::class);
+        $this->call(TingkatSeeder::class);
     }
 }

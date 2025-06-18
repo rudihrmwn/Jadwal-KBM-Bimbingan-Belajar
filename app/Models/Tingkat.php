@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Mapel extends Model
+class Tingkat extends Model
 {
-    /** @use HasFactory<\Database\Factories\MapelFactory> */
+    /** @use HasFactory<\Database\Factories\TingkatFactory> */
     use HasFactory;
 
-    protected $fillable = ['name','short_name'];
+    protected $fillable = ["name"];
 }
