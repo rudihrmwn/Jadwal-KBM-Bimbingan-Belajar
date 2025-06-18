@@ -15,7 +15,7 @@ class MapelController extends Controller
      */
     public function index()
     {
-        $model = Mapel::all();
+        $model = Mapel::with(['tingkats','pengajars'])->get();
         return new MapelResource(true, 'Data mapel ditemukan', $model);
     }
 
@@ -40,7 +40,7 @@ class MapelController extends Controller
      */
     public function show(string $id)
     {
-        $model = Mapel::find($id);
+        $model = Mapel::with(['tingkats','pengajars'])->find($id);
         return new MapelResource(true, 'Data mapel ditemukan', $model);
     }
 

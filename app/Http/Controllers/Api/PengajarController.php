@@ -15,7 +15,7 @@ class PengajarController extends Controller
      */
     public function index()
     {
-        $model = Pengajar::all();
+        $model = Pengajar::with('mapels')->get();
         return new PengajarResource(true,'Data pengajar ditemukan', $model);
     }
 
@@ -41,7 +41,7 @@ class PengajarController extends Controller
      */
     public function show(string $id)
     {
-        $model = Pengajar::find($id);
+        $model = Pengajar::with('mapels')->find($id);
         return new PengajarResource(true,'Data pengajar ditemukan', $model);
     }
 

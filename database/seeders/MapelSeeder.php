@@ -15,6 +15,18 @@ class MapelSeeder extends Seeder
     {
         DB::table("mapels")->insert([
             [
+                "name"=> "Matematika",
+                "short_name"=> "MAT"
+            ],
+            [
+                "name"=> "Bahasa Indonesia",
+                "short_name"=> "IND"
+            ],
+            [
+                "name"=> "Bahasa Inggris",
+                "short_name"=> "ING"
+            ],
+            [
                 "name"=> "Fisika",
                 "short_name"=> "FIS"
             ],

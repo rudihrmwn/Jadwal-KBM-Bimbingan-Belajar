@@ -15,7 +15,7 @@ class TingkatController extends Controller
      */
     public function index()
     {
-        $model = Tingkat::all();
+        $model = Tingkat::with('mapels')->get();
         return new TingkatResource(true, 'Data tingkat ditemukan', $model);
     }
 
@@ -39,7 +39,9 @@ class TingkatController extends Controller
      */
     public function show(string $id)
     {
-        $model = Tingkat::find($id);
+        //$model = Tingkat::find($id);
+        //$model->load('mapels');
+        $model = Tingkat::with('mapels')->find($id);
         return new TingkatResource(true, 'Data tingkat ditemukan', $model);
     }
 

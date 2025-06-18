@@ -11,4 +11,10 @@ class Pengajar extends Model
     use HasFactory;
 
     protected $fillable = ['name','short_name','phone_number'];
+    protected $hidden = ['pivot','created_at','updated_at'];
+
+    public function mapels() {
+        return $this->belongsToMany(Mapel::class,'pengajar_mapels');
+    }
+
 }

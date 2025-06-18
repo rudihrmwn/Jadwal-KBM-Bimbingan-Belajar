@@ -11,4 +11,13 @@ class Mapel extends Model
     use HasFactory;
 
     protected $fillable = ['name','short_name'];
+    protected $hidden = ['pivot','created_at','updated_at'];
+
+    public function tingkats() {
+        return $this->belongsToMany(Tingkat::class,'tingkat_mapels');
+    }
+
+    public function pengajars() {
+        return $this->belongsToMany(Pengajar::class,'pengajar_mapels');
+    }
 }

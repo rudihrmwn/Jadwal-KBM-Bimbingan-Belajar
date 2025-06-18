@@ -24,5 +24,7 @@ class DatabaseSeeder extends Seeder
         $this->call(MapelSeeder::class);
         $this->call(PengajarSeeder::class);
         $this->call(TingkatSeeder::class);
+        $this->call(TingkatMapelSeeder::class);
+        $this->call(PengajarMapelSeeder::class);
     }
 }
