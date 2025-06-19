@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+        
         $this->call(JamSeeder::class);
         $this->call(LokasiSeeder::class);
         $this->call(MapelSeeder::class);
@@ -26,5 +27,7 @@ class DatabaseSeeder extends Seeder
         $this->call(TingkatSeeder::class);
         $this->call(TingkatMapelSeeder::class);
         $this->call(PengajarMapelSeeder::class);
+        $this->call(KelasSeeder::class);
+        $this->call(KelasjambelajarSeeder::class);
     }
 }
