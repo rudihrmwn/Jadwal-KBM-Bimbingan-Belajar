@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\JamController;
 use App\Http\Controllers\Api\KelasController;
+use App\Http\Controllers\Api\KelasjambelajarController;
 use App\Http\Controllers\Api\LokasiController;
 use App\Http\Controllers\Api\MapelController;
 use App\Http\Controllers\Api\PengajarController;
@@ -19,3 +20,5 @@ Route::resource('/mapel', MapelController::class);
 Route::resource('/pengajar', PengajarController::class);
 Route::resource('/tingkat', TingkatController::class);
 Route::resource('/kelas', KelasController::class);
+Route::resource('/kelasjambelajar', KelasjambelajarController::class);
+
