@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\KelasResource;
 use App\Http\Resources\LokasiResource;
 use App\Models\Kelas;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -17,7 +18,10 @@ class KelasController extends Controller
     public function index()
     {
         $model = Kelas::with(['kelasjambelajars'])->get();
-        return new KelasResource(true, 'Data kelas ditemukan', $model);
+        return response()->json([
+            'success' => true,
+            'data' => $model
+        ], 200);
     }
 
     /**
@@ -26,13 +30,32 @@ class KelasController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name'=> 'required|string|min:3|max:20'
+            'name'=> 'required|string|min:3|max:20',
+            'lokasi_id'=> 'required|exists:lokasis,id',
+            'tingkat_id'=> 'required|exists:tingkats,id'
         ]);
         if ($validator->fails()){
-            return response()->json($validator->errors(),422);
+            return response()->json([
+                'success' => false,
+                'message' => 'data tidak valid',
+                'errors' => $validator->errors()
+            ], 422);
         }
-        $model = Kelas::create($request->all());
-        return new LokasiResource(true, 'Data kelas berhasil disimpan', $model);
+
+        try {
+            $model = Kelas::create($request->all());
+            return response()->json([
+                'success' => true,
+                'message' => 'Data berhasil disimpan',
+                'data' => $model
+            ], 201);
+        } catch (QueryException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal menyimpan produk',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
@@ -41,7 +64,18 @@ class KelasController extends Controller
     public function show(string $id)
     {
         $model = Kelas::with(['kelasjambelajars'])->find($id);
-        return new KelasResource(true, 'Data kelas ditemukan', $model);
+
+        if (!$model) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data tidak ditemukan'
+            ], 404);
+        }
+        
+        return response()->json([
+            'success' => true,
+            'data' => $model
+        ], 200);
     }
 
     /**
@@ -49,15 +83,42 @@ class KelasController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $model = Kelas::with(['kelasjambelajars'])->find($id);
+
+        if (!$model) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data tidak ditemukan'
+            ], 404);
+        }
+
         $validator = Validator::make($request->all(), [
-            'name'=> 'required|string|min:3|max:20'
+            'name'=> 'required|string|min:3|max:20',
+            'lokasi_id'=> 'required|exists:lokasis,id',
+            'tingkat_id'=> 'required|exists:tingkats,id'
         ]);
         if ($validator->fails()){
-            return response()->json($validator->errors(),422);
+            return response()->json([
+                'success' => false,
+                'message' => 'data tidak valid',
+                'errors' => $validator->errors()
+            ], 422);
         }
-        $model = Kelas::find($id);
-        $model->update($request->all());
-        return new LokasiResource(true, 'Data kelas berhasil diupdate', $model);
+
+        try {
+            $model->update($request->all());
+            return response()->json([
+                'success' => true,
+                'message' => 'Data berhasil diperbarui',
+                'data' => $model
+            ], 200);
+        } catch (QueryException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal memperbarui produk',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
@@ -65,7 +126,19 @@ class KelasController extends Controller
      */
     public function destroy(string $id)
     {
-        $model = Kelas::find($id);
+        $model = Kelas::with(['kelasjambelajars'])->find($id);
+
+        if (!$model) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data tidak ditemukan'
+            ], 404);
+        }
+        
         $model->delete();
-        return new LokasiResource(true, 'Data kelas berhasil dihapus', $model);    }
+        return response()->json([
+            'success' => true,
+            'message' => 'Data berhasil dihapus'
+        ], 200);
+    }
 }
